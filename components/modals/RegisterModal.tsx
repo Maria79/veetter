@@ -5,6 +5,9 @@ import useRegisterModal from '@/hooks/useRegisterModal';
 
 import Input from '../Input';
 import Modal from '../Modal';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { signIn } from 'next-auth/react';
 
 const RegisterModal = () => {
 	const loginModal = useLoginModal();
@@ -24,45 +27,60 @@ const RegisterModal = () => {
 		loginModal.onOpen();
 	}, [isLoading, loginModal, registerModal]);
 
-	const onSubmit = useCallback(() => {
+	const onSubmit = useCallback(async () => {
 		try {
 			setIsLoading(true);
 
 			//TODO ADD REGISTER & LOGIN
+			await axios.post('/api/register', {
+				email,
+				password,
+				username,
+				name,
+			});
+
+			toast.success('Account created');
+
+			signIn('credentials', {
+				email,
+				password,
+			});
 
 			registerModal.onClose();
 		} catch (error) {
 			console.log(error);
+			toast.error('Something when wrong');
 		} finally {
 			setIsLoading(false);
 		}
-	}, [registerModal]);
+	}, [email, name, password, registerModal, username]);
 
 	const bodyContent = (
 		<div className='flex flex-col gap-4'>
 			<Input
+				disabled={isLoading}
 				placeholder='Email'
 				onChange={(e) => setEmail(e.target.value)}
 				value={email}
-				disabled={isLoading}
 			/>
 			<Input
+				disabled={isLoading}
 				placeholder='Name'
 				onChange={(e) => setName(e.target.value)}
 				value={name}
-				disabled={isLoading}
 			/>
 			<Input
+				disabled={isLoading}
 				placeholder='Username'
 				onChange={(e) => setUsername(e.target.value)}
 				value={username}
-				disabled={isLoading}
 			/>
 			<Input
+				disabled={isLoading}
 				placeholder='Password'
+				type='password'
 				onChange={(e) => setPassword(e.target.value)}
 				value={password}
-				disabled={isLoading}
 			/>
 		</div>
 	);
@@ -70,7 +88,7 @@ const RegisterModal = () => {
 	const footerContent = (
 		<div className='text-neutral-600 text-center mt-4'>
 			<p>
-				Already have an account?
+				Already have an account?{' '}
 				<span
 					onClick={onToggle}
 					className='text-white cursor-pointer hover:underline'
@@ -85,8 +103,8 @@ const RegisterModal = () => {
 		<Modal
 			disabled={isLoading}
 			isOpen={registerModal.isOpen}
-			title='Login'
-			actionLabel='Sign in'
+			title='Register an account'
+			actionLabel='Register'
 			onClose={registerModal.onClose}
 			onSubmit={onSubmit}
 			body={bodyContent}
