@@ -25,6 +25,7 @@ const LoginModal = () => {
 				email,
 				password,
 			});
+
 			toast.success('Logged in');
 
 			loginModal.onClose();
