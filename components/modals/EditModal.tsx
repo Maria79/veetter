@@ -76,12 +76,18 @@ const EditModal = () => {
 				onChange={(image) => setProfileImage(image)}
 				label='Upload profile image'
 			/>
+			<em className='text-neutral-500 text-sm -mt-4'>
+				(Only *.jpeg and *.png images will be accepted)
+			</em>
 			<ImageUpload
 				value={coverImage}
 				disabled={isLoading}
 				onChange={(image) => setCoverImage(image)}
 				label='Upload cover image'
 			/>
+			<em className='text-neutral-500 text-sm -mt-4'>
+				(Only *.jpeg and *.png images will be accepted)
+			</em>
 			<Input
 				placeholder='Name'
 				onChange={(e) => setName(e.target.value)}
