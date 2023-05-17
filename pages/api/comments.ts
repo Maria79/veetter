@@ -38,7 +38,7 @@ export default async function handler(
 			if (post?.userId) {
 				await prisma.notification.create({
 					data: {
-						body: 'Someone reply to your veetweet!',
+						body: 'Someone reply to your Veet!',
 						userId: post.userId,
 					},
 				});
