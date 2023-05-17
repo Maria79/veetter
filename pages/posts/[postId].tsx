@@ -3,8 +3,9 @@ import { ClipLoader } from 'react-spinners';
 
 import usePost from '@/hooks/usePost';
 import Header from '@/components/Header';
-import PostItems from '@/components/posts/PostItems';
+import PostItems from '@/components/posts/PostItem';
 import Form from '@/components/Form';
+import CommentFeed from '@/components/posts/CommentFeed';
 
 const PostView = () => {
 	const router = useRouter();
@@ -28,6 +29,7 @@ const PostView = () => {
 				isComment
 				placeholder='Veeteet your reply'
 			/>
+			<CommentFeed comments={fetchedPost?.comments} />
 		</>
 	);
 };
